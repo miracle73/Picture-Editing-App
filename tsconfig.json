@@ -1,0 +1,29 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es6",
+    "strict": true,
+    "allowJs": false,
+    "jsx": "react-native",
+    "types": [
+      "cypress"
+    ],
+    "moduleResolution": "node16"
+  },
+  "typeRoots": [
+    "./src/types",
+  ],
+  "include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "cypress/support/commands.ts",
+    "codegen.js"
+  ],
+  "exclude": [
+    "node_modules",
+    // "cypress"
+  ]
+}
