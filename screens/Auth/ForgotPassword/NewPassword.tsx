@@ -2,13 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Divider, useTheme } from '@rneui/themed'
 import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Image, SafeAreaView, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import { CustomButton, CustomInput, CustomSvg, CustomText } from '../../../components/Element'
-import { BlurView } from "expo-blur";
 import { LinearGradient } from 'expo-linear-gradient'
 import { NewPasswordInputs, NewPasswordInputsFieldsName, NewPasswordInputsValidationSchema } from '../../../types/react-hook-form'
-import { PICSHUB_BACKEND_URL } from '@env'
+import { EXPO_PUBLIC_PICSHUB_BACKEND_URL } from '@env'
 import fetchData from '../../../utils/helpers/fetchData'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 const NewPasswordScreen = ({ route, navigation }) => {
     const { theme } = useTheme();
@@ -24,7 +24,7 @@ const NewPasswordScreen = ({ route, navigation }) => {
     const onSubmit = async (data: NewPasswordInputs) => {
         const otp = Object.values(data).join("")
         setLoading(true)
-        const res = await fetchData(`${PICSHUB_BACKEND_URL}/accounts/reset-password/verify/`, {
+        const res = await fetchData(`${EXPO_PUBLIC_PICSHUB_BACKEND_URL}/accounts/reset-password/verify/`, {
             method: 'POST', body: JSON.stringify({ ...route.params, new_password: data.newPassword })
         })
 
@@ -33,6 +33,8 @@ const NewPasswordScreen = ({ route, navigation }) => {
         }
         setLoading(false);
     }
+
+    const headerHeight = useHeaderHeight() 
 
     return (
         <LinearGradient
@@ -48,9 +50,8 @@ const NewPasswordScreen = ({ route, navigation }) => {
                 colors={['rgba(56, 56, 171, 0.86)', 'rgba(56, 56, 171, 0.30)']}
                 locations={[0.8, 1]}
                 style={{ backgroundColor: 'red', width: 300, height: 300, borderRadius: 300, position: 'absolute', bottom: -150, right: -120, opacity: 0.3 }}></LinearGradient>
-            <BlurView intensity={20} style={{ overflow: 'hidden', flex: 1 }} >
-                <SafeAreaView>
-                    <View style={{ paddingHorizontal: 16, paddingVertical: 18, borderTopRightRadius: 32, borderTopLeftRadius: 32 }}>
+            {/* <BlurView intensity={20} style={{ overflow: 'hidden', flex: 1 }} > */}
+                    <View style={{ paddingHorizontal: 16, paddingVertical: 18, borderTopRightRadius: 32, borderTopLeftRadius: 32, marginTop: headerHeight }}>
                         <CustomText variant='p15' color={theme.colors['grey-100']}>Enter new password</CustomText>
                         <CustomInput 
                         returnKeyType='next'
@@ -77,8 +78,8 @@ const NewPasswordScreen = ({ route, navigation }) => {
                             onPress={handleSubmit(onSubmit)}
                         >Continue</CustomButton>
                     </View>
-                </SafeAreaView>
-            </BlurView>
+                {/* </SafeAreaView> */}
+            {/* </BlurView> */}
         </LinearGradient>
     )
 }

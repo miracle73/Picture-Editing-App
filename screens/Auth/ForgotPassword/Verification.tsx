@@ -1,14 +1,14 @@
 import { Divider, useTheme } from '@rneui/themed'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Image, SafeAreaView, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import { CustomButton, CustomInput, CustomSvg, CustomText } from '../../../components/Element'
-import { BlurView } from "expo-blur";
 import { LinearGradient } from 'expo-linear-gradient'
 import { VerificationInputs, VerificationInputsFieldsName, VerificationInputsValidationSchema } from '../../../types/react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { PICSHUB_BACKEND_URL } from '@env'
+import { EXPO_PUBLIC_PICSHUB_BACKEND_URL } from '@env'
 import fetchData from '../../../utils/helpers/fetchData'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 const VerificationScreen = ({ route, navigation }) => {
     const { theme } = useTheme();
@@ -28,7 +28,7 @@ const VerificationScreen = ({ route, navigation }) => {
     const onSubmit = async (data: VerificationInputs) => {
         const otp = Object.values(data).join("")
         setLoading(true)
-        const res = await fetchData(`${PICSHUB_BACKEND_URL}/accounts/verify-email`, {
+        const res = await fetchData(`${EXPO_PUBLIC_PICSHUB_BACKEND_URL}/accounts/verify-email`, {
             method: 'POST', body: JSON.stringify({ otp, email: route.params.email })
         })
 
@@ -40,7 +40,7 @@ const VerificationScreen = ({ route, navigation }) => {
 
     const handleResend = async () => {
         setResendLoading(true)
-        const res = await fetchData(`${PICSHUB_BACKEND_URL}/accounts/resend-otp`, {
+        const res = await fetchData(`${EXPO_PUBLIC_PICSHUB_BACKEND_URL}/accounts/resend-otp`, {
             method: 'POST', body: JSON.stringify({email: route.params.email})
         })
         setResendLoading(false);
@@ -54,11 +54,13 @@ const VerificationScreen = ({ route, navigation }) => {
         inputRef.current?.focus();
     }
 
+    const headerHeight = useHeaderHeight() 
+
     return (
         <LinearGradient
             colors={['rgba(56, 56, 171, 0.20)', 'rgba(204, 88, 84, 0.02)', 'rgba(56, 56, 171, 0.20)']}
             locations={[0, 0.3, 0.5]}
-            style={{ position: 'relative', flex: 1 }}
+            style={{ position: 'relative', flex: 1, marginTop: headerHeight }}
         >
             <LinearGradient
                 colors={['rgba(56, 56, 171, 0.86)', 'rgba(56, 56, 171, 0.30)']}
@@ -68,9 +70,8 @@ const VerificationScreen = ({ route, navigation }) => {
                 colors={['rgba(56, 56, 171, 0.86)', 'rgba(56, 56, 171, 0.30)']}
                 locations={[0.8, 1]}
                 style={{ backgroundColor: 'red', width: 300, height: 300, borderRadius: 300, position: 'absolute', bottom: -150, right: -120, opacity: 0.3 }}></LinearGradient>
-            <BlurView intensity={20} style={{ overflow: 'hidden', flex: 1 }} >
-                <SafeAreaView>
-                    <View style={{ paddingHorizontal: 16, paddingVertical: 18, borderTopRightRadius: 32, borderTopLeftRadius: 32 }}>
+            {/* <BlurView intensity={20} style={{ overflow: 'hidden', flex: 1 }} > */}
+                    <View style={{ paddingHorizontal: 16, paddingVertical: 18, borderTopRightRadius: 32, borderTopLeftRadius: 32, marginTop: headerHeight }}>
                         <CustomText variant='p15' color={theme.colors['grey-100']} style={{ marginBottom: 16, textAlign: 'center' }} >Enter verification code</CustomText>
 
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginBottom: 12 }}>
@@ -122,8 +123,7 @@ const VerificationScreen = ({ route, navigation }) => {
                             loading={loading}
                             onPress={handleSubmit(onSubmit)}>Continue</CustomButton>
                     </View>
-                </SafeAreaView>
-            </BlurView>
+            {/* </BlurView> */}
         </LinearGradient>
     )
 }

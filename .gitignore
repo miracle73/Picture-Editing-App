@@ -1,11 +1,10 @@
 node_modules/
-.env
-.env.development
-.env.local
-.env.production
-.env.__tests
-metro.config.js
 android
+.env.test
+.env.production
+.env.local
+.env.development
+.env
 .expo/
 dist/
 .idea/

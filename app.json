@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "pichub",
-    "slug": "pichub",
+    "slug": "picshub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,18 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "infoPlist": {
-        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
-        "SKAdNetworkItems": [
-          {
-            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
-          },
-          {
-            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
-          }
-        ]
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
@@ -37,6 +26,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9ec1ad71-3e0b-489b-9034-226207eec43d"
+      }
+    },
+    "owner": "picshub"
   }
 }

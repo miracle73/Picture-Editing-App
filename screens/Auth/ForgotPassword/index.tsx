@@ -2,14 +2,14 @@ import { useState } from "react";
 import { Divider, useTheme } from '@rneui/themed'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Image, SafeAreaView, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import { CustomButton, CustomInput, CustomSvg, CustomText } from '../../../components/Element'
-import { BlurView } from "expo-blur";
 import { LinearGradient } from 'expo-linear-gradient'
 import { ForgetPasswordInputs, ForgetPasswordInputsFieldsName, ForgetPasswordInputsValidationSchema } from '../../../types/react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import fetchData from '../../../utils/helpers/fetchData'
-import { PICSHUB_BACKEND_URL } from '@env'
+import { EXPO_PUBLIC_PICSHUB_BACKEND_URL } from '@env'
+import { useHeaderHeight } from "@react-navigation/elements";
 
 const ForgotPasswordScreen = ({ navigation }) => {
     const { theme } = useTheme();
@@ -21,7 +21,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
     const onSubmit = async (data: ForgetPasswordInputs) => {
         setLoading(true)
-        const res = await fetchData(`${PICSHUB_BACKEND_URL}/accounts/reset-password`, {
+        const res = await fetchData(`${EXPO_PUBLIC_PICSHUB_BACKEND_URL}/accounts/reset-password`, {
             method: 'POST', body: JSON.stringify(data)
         })
 
@@ -30,6 +30,8 @@ const ForgotPasswordScreen = ({ navigation }) => {
         }
         setLoading(false);
     }
+
+    const headerHeight = useHeaderHeight() 
 
     return (
         <LinearGradient
@@ -45,9 +47,9 @@ const ForgotPasswordScreen = ({ navigation }) => {
                 colors={['rgba(56, 56, 171, 0.86)', 'rgba(56, 56, 171, 0.30)']}
                 locations={[0.8, 1]}
                 style={{ backgroundColor: 'red', width: 300, height: 300, borderRadius: 300, position: 'absolute', bottom: -150, right: -120, opacity: 0.3 }}></LinearGradient>
-            <BlurView intensity={20} style={{ overflow: 'hidden', flex: 1 }} >
-                <SafeAreaView>
-                    <View style={{ paddingHorizontal: 16, paddingVertical: 18, borderTopRightRadius: 32, borderTopLeftRadius: 32 }}>
+                        {/* <SafeAreaView> */}
+            {/* <BlurView intensity={20} style={{ overflow: 'hidden', flex: 1 }} > */}
+                    <View style={{ paddingHorizontal: 16, paddingVertical: 18, borderTopRightRadius: 32, borderTopLeftRadius: 32, marginTop: headerHeight }}>
                         <CustomText variant='p15' color={theme.colors['grey-100']} style={{ marginBottom: 16 }} >Input your email to get verification code</CustomText>
 
                         <CustomText variant='p15' color={theme.colors['grey-100']}>Email address</CustomText>
@@ -67,17 +69,17 @@ const ForgotPasswordScreen = ({ navigation }) => {
                         </View>
 
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, height: 55, }}>
-                            <TouchableOpacity style={{ width: '48%', borderRadius: 32, backgroundColor: "#1D171C", overflow: 'hidden' }}>
-                                <BlurView intensity={15} style={{ flex: 1, flexDirection: 'row', gap: 8, justifyContent: 'center', alignItems: 'center' }}>
+                            <TouchableOpacity style={{ width: '48%', borderRadius: 32, backgroundColor: "#1D171C", overflow: 'hidden' }} >
+                                <View style={{ flex: 1, flexDirection: 'row', gap: 8, justifyContent: 'center', alignItems: 'center' }}>
                                     <CustomSvg name='google' />
                                     <CustomText>Google</CustomText>
-                                </BlurView>
+                                </View>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ width: '48%', borderRadius: 32, backgroundColor: "#1D171C", overflow: 'hidden' }}>
-                                <BlurView intensity={15} style={{ flex: 1, flexDirection: 'row', gap: 8, justifyContent: 'center', alignItems: 'center' }}>
+                            <TouchableOpacity style={{ width: '48%', borderRadius: 32, backgroundColor: "#1D171C", overflow: 'hidden' }} >
+                                <View style={{ flex: 1, flexDirection: 'row', gap: 8, justifyContent: 'center', alignItems: 'center' }}>
                                     <CustomSvg name='apple' />
                                     <CustomText>Facebook</CustomText>
-                                </BlurView>
+                                </View>
                             </TouchableOpacity>
                         </View>
 
@@ -86,8 +88,8 @@ const ForgotPasswordScreen = ({ navigation }) => {
                             <CustomButton type='clear' color={theme.colors['blue-100']} buttonStyle={{ paddingVertical: 0 }} onPress={() => navigation.navigate("Signup")}>Sign up</CustomButton>
                         </View>
                     </View>
-                </SafeAreaView>
-            </BlurView>
+                {/* </SafeAreaView> */}
+            {/* </BlurView> */}
         </LinearGradient>
     )
 }

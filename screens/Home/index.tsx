@@ -7,13 +7,10 @@ import AlbumCardComponent from '../../components/Card/Album'
 import { CustomButton, CustomInput, CustomSvg, CustomText } from '../../components/Element'
 import { useAuthStore } from '../Auth/auth.store'
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
     const { control } = useForm();
     const [searchVisible, setSearchVisible] = useState(false)
     const [subscribeVisible, setSubscribeVisible] = useState(true)
-
-    const {userToken} = useAuthStore();
-    console.log(userToken);
 
     return (
         <SafeAreaView style={{ paddingHorizontal: 16 }}>
@@ -22,9 +19,12 @@ const HomeScreen = () => {
                     <CustomSvg name='logo' height={22} width={84} />
                 </View>
                 <View style={{ display: "flex", flexDirection: 'row' }}>
-                    <CustomButton type='clear' buttonStyle={{ paddingVertical: 6 }} onPress={() => setSearchVisible(!searchVisible)}>
-                        <CustomSvg name='search' color={searchVisible ? "#1E1E1E" : "#FFFFFF"} />
+                <CustomButton type='clear' buttonStyle={{ paddingVertical: 6 }} onPress={() => navigation.navigate("UserProfile")} >
+                        <CustomSvg name='person' color={searchVisible ? "#1E1E1E" : "#FFFFFF"} />
                     </CustomButton>
+                    {/* <CustomButton type='clear' buttonStyle={{ paddingVertical: 6 }} onPress={() => setSearchVisible(!searchVisible)}>
+                        <CustomSvg name='search' color={searchVisible ? "#1E1E1E" : "#FFFFFF"} />
+                    </CustomButton> */}
                     <CustomButton type='clear' buttonStyle={{ paddingVertical: 6 }} onPress={() => setSubscribeVisible(!subscribeVisible)} >
                         <CustomSvg name='notification' />
                     </CustomButton>
@@ -65,7 +65,7 @@ const HomeScreen = () => {
                     <CustomText variant='p16' style={{ fontWeight: "500", textAlign: 'center', marginTop: 20, marginBottom: 60 }}>Lorm impsu nfhhsjfn fjjnvnxjxvnv vxhxhv vxnvbvjvxjbvxjbvbvxvbvxbjvx kvk kk bvjbjvcjbvjbjvxbjvxjbjvbjbvjbjb</CustomText>
                     <CustomText variant='p32' style={{ fontWeight: "700" }}>$30.00</CustomText>
                     <CustomText variant='p16' style={{ fontWeight: "500" }}>Per month</CustomText>
-                    <CustomButton containerStyle={{ width: "100%", marginTop: 25, marginBottom: 15 }}>Subscribe</CustomButton>
+                    <CustomButton containerStyle={{ width: "100%", marginTop: 25, marginBottom: 15 }} onPress={() => setSubscribeVisible(!subscribeVisible)}>Subscribe</CustomButton>
                     <CustomText variant='p10' style={{ fontWeight: "500" }}>Subscription can be canceled at anytime</CustomText>
                 </View>
             </BottomSheet>

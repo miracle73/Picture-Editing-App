@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import LoginIcon from '../../assets/images/Login.png'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons'
 import fetchData from "../../utils/helpers/fetchData"
-import { PICSHUB_BACKEND_URL } from '@env'
+import { EXPO_PUBLIC_PICSHUB_BACKEND_URL } from '@env'
 import { useAuthStore } from '../Auth/auth.store'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -22,18 +22,19 @@ type NavigationProp = StackNavigationProp<Record<string, undefined>, keyof Route
 
 const UserProfile = () => {
     const [loading, setLoading] = useState(false)
+    const [userDetail, setUserDetail] = useState()
     const navigation = useNavigation<NavigationProp>();
 
-    // const {userToken} = useAuthStore();
-    // console.log(userToken);
+    const {userToken} = useAuthStore();
+
     useEffect(() => {
         const fetchToken = async () => {
             setLoading(true)
-            const res = await fetchData(`${PICSHUB_BACKEND_URL}/accounts/user-details/`, {
+            const res = await fetchData(`${EXPO_PUBLIC_PICSHUB_BACKEND_URL}/accounts/user-details/`, {
                 method: 'GET', 
-            }, )
+            }, userToken)
 
-            console.log(res)
+            setUserDetail(res)
             setLoading(false);
         };
 
@@ -53,8 +54,8 @@ const UserProfile = () => {
                 </View>
             </View>
 
-            <Text style={[styles.secondText, { paddingTop: 10 }]}>Micheal bobman</Text>
-            <Text style={styles.thirdText}>Michealbobman@gmail.com</Text>
+            <Text style={[styles.secondText, { paddingTop: 10 }]}>{userDetail?.username}</Text>
+            <Text style={styles.thirdText}>{userDetail?.email}</Text>
 
             <View style={{
                 paddingVertical: 15, width: '100%', borderRadius: 15, backgroundColor: "#1E1E1EE1", flexDirection: 'row',

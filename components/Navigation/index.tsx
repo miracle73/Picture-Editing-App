@@ -34,8 +34,8 @@ const headerOptions = { headerShown: true, headerTransparent: true, headerTitle:
 const AppNavigation = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "black", } }} >
-            <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{ headerShown: false }} />
+            <Stack.Navigator initialRouteName="OnboardingScreen" screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "black" } }} >
+                <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="PremiumProfile" component={PremiumProfile} options={{ ...headerOptions, headerTitle: "Profile", }} />
                 <Stack.Screen name="UserProfile" component={UserProfile} options={{
                     ...headerOptions, headerTitle: "Profile",
